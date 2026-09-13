@@ -6,6 +6,10 @@ from src.logger import get_logger
 
 logger = get_logger(__name__)
 
+@st.cache_resource
+def get_rag_chain():
+    return RAGChain()
+
 
 st.set_page_config(
     page_title="NovaTech Knowledge Assistant",
@@ -23,8 +27,12 @@ st.caption(
 
 if "rag_chain" not in st.session_state:
     try:
-        st.session_state.rag_chain = RAGChain()
+        # st.session_state.rag_chain = RAGChain()
+           
         logger.info("RAG chain initialized for Streamlit session.")
+        
+
+        st.session_state.rag_chain = get_rag_chain()
 
     except Exception:
         logger.exception(
